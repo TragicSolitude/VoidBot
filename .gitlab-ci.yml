@@ -11,6 +11,7 @@ Build Project:
   stage: build
   image: rust:1.33-slim-stretch
   script:
+    - apt update && apt install --no-install-recommends -y libssl-dev pkg-config
     - cargo build --release
   cache:
     paths:

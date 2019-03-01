@@ -34,6 +34,7 @@ Deploy Project:
     - gcloud auth configure-docker
     - docker build -t $IMAGE_NAME .
     - docker push $IMAGE_NAME
+    - gcloud config set project in-the-void
     - gcloud compute instances update-container voidbot --container-image $IMAGE_NAME --zone us-west1-b
   only:
     - tags

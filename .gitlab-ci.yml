@@ -6,6 +6,7 @@ variables:
   DOCKER_HOST: tcp://docker:2375
   DOCKER_DRIVER: overlay2
   IMAGE_NAME: us.gcr.io/in-the-void/voidbot:$CI_COMMIT_TAG
+  CARGO_HOME: $CI_PROJECT_DIR/.cargo
 
 Build Project:
   stage: build

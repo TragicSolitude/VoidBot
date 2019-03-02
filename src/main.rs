@@ -1,6 +1,9 @@
 extern crate serenity;
+extern crate toml;
 #[macro_use]
 extern crate lazy_static;
+#[macro_use]
+extern crate serde;
 
 mod commands;
 mod managed_channel;
@@ -15,6 +18,7 @@ use std::env;
 use std::collections::HashMap;
 use commands::playing::Playing;
 use commands::ping::Ping;
+use commands::version::Version;
 use managed_channel::ManagedChannel;
 
 lazy_static! {
@@ -37,7 +41,8 @@ fn main() {
     client.with_framework(StandardFramework::new()
         .configure(|c| c.prefix("!"))
         .cmd("ping", Ping)
-        .cmd("playing", Playing));
+        .cmd("playing", Playing)
+        .cmd("version", Version));
 
     // start listening for events by starting a single shard
     if let Err(why) = client.start() {

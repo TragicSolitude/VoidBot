@@ -3,6 +3,7 @@ name = "voidbot"
 version = "0.2.0"
 authors = ["Noah Shuart <shuart.noah.s@gmail.com>"]
 edition = "2018"
+license = "MIT"
 
 [dependencies]
 serenity = "0.5"

@@ -1,5 +1,7 @@
 extern crate serenity;
 extern crate toml;
+extern crate timer;
+extern crate chrono;
 #[macro_use]
 extern crate lazy_static;
 #[macro_use]
@@ -17,9 +19,8 @@ use serenity::model::id::GuildId;
 use serenity::model::id::UserId;
 use std::env;
 use std::collections::HashMap;
-use commands::playing::Playing;
-use commands::ping::Ping;
-use commands::version::Version;
+use std::sync::Arc;
+use timer::Timer;
 use handler::Handler;
 
 lazy_static! {
@@ -33,11 +34,14 @@ fn main() {
     let mut client = Client::new(&env::var("DISCORD_TOKEN").expect("token"), Handler)
         .expect("Error creating client");
     
+    let time_guard = Arc::new(Mutex::new(Timer::new()));
+    
     client.with_framework(StandardFramework::new()
         .configure(|c| c.prefix("!"))
-        .cmd("ping", Ping)
-        .cmd("playing", Playing)
-        .cmd("version", Version));
+        .cmd("ping", commands::ping::Ping)
+        .cmd("playing", commands::playing::Playing)
+        .cmd("version", commands::version::Version)
+        .cmd("remindme", commands::remindme::RemindMe(time_guard)));
 
     // start listening for events by starting a single shard
     if let Err(why) = client.start() {

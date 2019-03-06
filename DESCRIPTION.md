@@ -6,6 +6,9 @@ Has the following commands:
 - `!ping` "pong"; this exists mostly just to test responsiveness of the bot
 - `!playing [name]` Creates a temporary voice channel with the name `[name]` and
 moves you into it. This channel is deleted when it has no users in it.
+- `!remindme [time] [reminder]` Sends `[reminder]` in the channel the command was
+run in mentioning the person who sent the command after `[time]` seconds from
+the bot receiving the message.
 
 The bot also supports some additional passive functionality:
 - If you want to have this description of the bot on your server, put

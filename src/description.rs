@@ -16,7 +16,8 @@ pub fn update_bot_description(data_about: Ready) -> Result<(), Error> {
             if let Some(topic) = &guild_channel.topic {
                 if topic.contains("$VOIDBOT_DESCRIPTION") {
                     // TODO Split description if content.len() > 2000
-                    let content = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "/DESCRIPTION.md"));
+                    let content = include_str!(
+                        concat!(env!("CARGO_MANIFEST_DIR"), "/DESCRIPTION.md"));
                     let mut messages = guild_channel.messages(|g| g.limit(100))?;
                     let mut edited = false;
                     for message in messages.iter_mut() {

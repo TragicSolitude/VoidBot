@@ -7,6 +7,7 @@ extern crate lazy_static;
 #[macro_use]
 extern crate serde;
 
+mod models;
 mod handler;
 mod commands;
 mod managed_channel;
@@ -27,7 +28,8 @@ lazy_static! {
     /// Keeps a map of users' current server for easy lookup in the `!playing`
     /// command so that it can determine which server to create the voice
     /// channel in.
-    static ref CURRENT_SERVER: Mutex<HashMap<UserId, Option<GuildId>>> = Mutex::new(HashMap::new());
+    static ref CURRENT_SERVER: Mutex<HashMap<UserId, Option<GuildId>>>
+        = Mutex::new(HashMap::new());
 }
 
 fn main() {

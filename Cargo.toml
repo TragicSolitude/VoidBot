@@ -1,6 +1,6 @@
 [package]
 name = "voidbot"
-version = "0.4.0"
+version = "0.5.1"
 authors = ["Noah Shuart <shuart.noah.s@gmail.com>"]
 edition = "2018"
 license = "MIT"

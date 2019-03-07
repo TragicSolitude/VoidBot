@@ -26,7 +26,7 @@ impl Command for RemindMe {
         let mut it = msg.content.split(" ").skip(1);
         if let Some(duration_arg) = it.next() {
             if let Ok(duration) = duration_arg.parse::<i64>() {
-                let content = it.collect::<Vec<&str>>().join("");
+                let content = it.collect::<Vec<&str>>().join(" ");
                 let guard = self.0.lock().schedule_with_delay(
                     Duration::seconds(duration),
                     move || {

@@ -1,17 +1,20 @@
 use std::cmp::Ordering;
-use timer::Guard;
-use chrono::Utc;
+use std::time::Instant;
+use std::time::Duration;
+use serenity::model::id::UserId;
+use serenity::model::id::ChannelId;
 
 pub struct Reminder {
-    pub guard: Guard,
-    pub expiration: i64
+    pub who: UserId,
+    pub channel: ChannelId,
+    pub message: String,
+    pub expiration: Instant
 }
 
 impl Reminder {
-    pub fn new(guard: Guard, duration: i64) -> Self {
-        let now = Utc::now().timestamp_millis();
-        let expiration = now + (duration * 1000);
-        Reminder { guard, expiration }
+    pub fn new(who: UserId, channel: ChannelId, message: String, offset: Duration) -> Self {
+        let expiration = Instant::now() + offset;
+        Reminder { who, channel, message, expiration }
     }
 }
 

@@ -9,8 +9,6 @@ license = "MIT"
 serenity = "0.5"
 lazy_static = "1.3.0"
 toml = "0.4"
-timer = "0.2"
-chrono = "0.4"
 
 [dependencies.serde]
 version = "1.0"

@@ -13,12 +13,9 @@ from the bot receiving the message.
 **WARNING REGARDING `!remindme` COMMAND**
 This command is currently quite fragile and has a number of known issues so use
 it sparingly. Some of these issues include but are not limited to:
-1. If 2 reminders are set within the same time interval there is a possibility
-that one of the reminders will be forgotten.
 2. The reminders are not backed with any kind of non-volatile storage and are
 currently in-memory only. All pending reminders will be forgotten whenever the
 bot restarts; because it is in active development it will restart often.
-3. Reminders may occasionally be forgotten for no reason at all.
 3. You can only input reminder times in seconds which is great for developing
 with but not very user friendly.
 

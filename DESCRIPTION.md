@@ -8,16 +8,9 @@ Has the following commands:
 moves you into it. This channel is deleted when it has no users in it.
 - `!remindme [time] [reminder]` Sends `[reminder]` in the channel the command
 was run in mentioning the person who sent the command after `[time]` seconds
-from the bot receiving the message.
-
-**WARNING REGARDING `!remindme` COMMAND**
-This command is currently quite fragile and has a number of known issues so use
-it sparingly. Some of these issues include but are not limited to:
-2. The reminders are not backed with any kind of non-volatile storage and are
-currently in-memory only. All pending reminders will be forgotten whenever the
-bot restarts; because it is in active development it will restart often.
-3. You can only input reminder times in seconds which is great for developing
-with but not very user friendly.
+from the bot receiving the message. The reminder queue gets flushed to a file
+every 10 seconds so in the event the bot restarts there is a possible 10 second
+window of reminders that were forgotten but it's unlikely.
 
 The bot also supports some additional passive functionality:
 - If you want to have this description of the bot on your server, put

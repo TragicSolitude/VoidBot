@@ -5,5 +5,5 @@ RUN apt update && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
 COPY target/release/voidbot ./
-VOLUME /data/db
+VOLUME /opt/voidbot/persistence
 CMD ["/opt/voidbot/voidbot"]

@@ -1,2 +1,3 @@
 /target
+/persistence
 **/*.rs.bk

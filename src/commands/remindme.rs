@@ -19,7 +19,7 @@ impl Command for RemindMe {
                 let content = it.collect::<Vec<&str>>().join(" ");
                 let duration = Duration::from_secs(seconds);
                 REMINDERS.lock().push(
-                    Reminder::new(author, channel, content, duration));
+                    Reminder::new(author.0, channel.0, content, duration));
             }
         }
 

@@ -1,20 +1,19 @@
 use std::cmp::Ordering;
-use std::time::Instant;
 use std::time::Duration;
-use serenity::model::id::UserId;
-use serenity::model::id::ChannelId;
+use std::time::SystemTime;
 
+#[derive(Serialize, Deserialize)]
 pub struct Reminder {
-    pub who: UserId,
-    pub channel: ChannelId,
+    pub author: u64,
+    pub channel: u64,
     pub message: String,
-    pub expiration: Instant
+    pub expiration: SystemTime
 }
 
 impl Reminder {
-    pub fn new(who: UserId, channel: ChannelId, message: String, offset: Duration) -> Self {
-        let expiration = Instant::now() + offset;
-        Reminder { who, channel, message, expiration }
+    pub fn new(author: u64, channel: u64, message: String, offset: Duration) -> Self {
+        let expiration = SystemTime::now() + offset;
+        Reminder { author, channel, message, expiration }
     }
 }
 

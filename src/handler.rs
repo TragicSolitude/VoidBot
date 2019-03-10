@@ -10,8 +10,10 @@ pub struct Handler;
 
 impl EventHandler for Handler {
     fn voice_state_update(&self, _ctx: Context, guild_id: Option<GuildId>, state: VoiceState) {
-        CURRENT_SERVER.lock().insert(state.user_id, guild_id);
-        ManagedChannel::recv_update(state.user_id, state.channel_id);
+        if let Ok(mut lock) = CURRENT_SERVER.lock() {
+            lock.insert(state.user_id, guild_id);
+            ManagedChannel::recv_update(state.user_id, state.channel_id);
+        }
     }
 
     fn ready(&self, _ctx: Context, data_about: Ready) {

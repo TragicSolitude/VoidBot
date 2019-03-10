@@ -21,6 +21,7 @@ use serenity::model::id::ChannelId;
 use std::env;
 use std::collections::HashMap;
 use std::sync::Arc;
+use std::sync::Mutex;
 use handler::Handler;
 use std::thread;
 use std::time::Duration;
@@ -39,6 +40,7 @@ lazy_static! {
     /// Binary heap tracking pending reminders, backed by "reminders.bin" file
     /// for persistence
     static ref REMINDERS: Arc<Mutex<BinaryHeap<Reminder>>> = {
+        // TODO make wrapper class that handles all of this stuff for us
         if let Ok(mut f) = File::open("persistence/reminders.bin") {
             let mut bin = Vec::new();
             let _ = f.read_to_end(&mut bin);
@@ -60,10 +62,11 @@ fn main() {
         // TODO move this stuff into a self-contained struct
         loop {
             thread::sleep(Duration::from_secs(10));
-            let lock = REMINDERS.lock();
-            if let Ok(bin) = bincode::serialize(&*lock) {
-                if let Ok(mut f) = File::create("persistence/reminders.bin") {
-                    let _ = f.write(&bin);
+            if let Ok(lock) = REMINDERS.lock() {
+                if let Ok(bin) = bincode::serialize(&*lock) {
+                    if let Ok(mut f) = File::create("persistence/reminders.bin") {
+                        let _ = f.write(&bin);
+                    }
                 }
             }
         }
@@ -72,11 +75,12 @@ fn main() {
     threads.push(thread::spawn(|| {
         loop {
             thread::sleep(Duration::from_secs(1));
-            let mut lock = REMINDERS.lock();
-            while lock.len() > 0 && lock.peek().unwrap().expiration < SystemTime::now() {
-                let reminder = lock.pop().unwrap();
-                let _ = ChannelId::from(reminder.channel).say(
-                    format!("{}: {}", UserId::from(reminder.author).mention(), reminder.message));
+            if let Ok(mut lock) = REMINDERS.lock() {
+                while lock.len() > 0 && lock.peek().unwrap().expiration < SystemTime::now() {
+                    let reminder = lock.pop().unwrap();
+                    let _ = ChannelId::from(reminder.channel).say(
+                        format!("{}: {}", UserId::from(reminder.author).mention(), reminder.message));
+                }
             }
         }
     }));
@@ -84,7 +88,7 @@ fn main() {
     threads.push(thread::spawn(|| {
         let mut client = Client::new(&env::var("DISCORD_TOKEN").expect("token"), Handler)
             .expect("Error creating client");
-        
+
         client.with_framework(StandardFramework::new()
             .configure(|c| c.prefix("!"))
             .cmd("ping", commands::ping::Ping)

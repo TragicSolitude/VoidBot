@@ -15,12 +15,16 @@ impl Command for RemindMe {
         let author = msg.author.id;
         let mut it = msg.content.split(" ").skip(1);
         if let Some(duration_arg) = it.next() {
-            if let Ok(seconds) = duration_arg.parse::<u64>() {
-                let content = it.collect::<Vec<&str>>().join(" ");
-                let duration = Duration::from_secs(seconds);
-                REMINDERS.lock().push(
-                    Reminder::new(author.0, channel.0, content, duration));
-            }
+            let content = it.collect::<Vec<&str>>().join(" ");
+            let duration = match humantime::parse_duration(duration_arg) {
+                Ok(dur) => dur,
+                Err(_) => {
+                    let dur = duration_arg.parse::<u64>()?;
+                    Duration::from_secs(dur)
+                }
+            };
+            REMINDERS.lock()?.push(
+                Reminder::new(author.0, channel.0, content, duration));
         }
 
         Ok(())

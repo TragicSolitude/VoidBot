@@ -18,7 +18,7 @@ impl Command for Playing {
             .skip(1)
             .collect::<Vec<&str>>()
             .join(" ");
-        match CURRENT_SERVER.lock().get(&msg.author.id) {
+        match CURRENT_SERVER.lock()?.get(&msg.author.id) {
             Some(guild) => {
                 if let Some(guild_id) = guild {
                     let new_channel

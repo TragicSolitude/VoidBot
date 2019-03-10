@@ -1,8 +1,8 @@
-use serenity::model::id::UserId;
-use serenity::model::id::ChannelId;
 use std::collections::HashSet;
 use std::sync::Mutex;
 use std::sync::Arc;
+use serenity::model::id::UserId;
+use serenity::model::id::ChannelId;
 
 lazy_static! {
     /// Contains a list of temporary channels currently being managed by the

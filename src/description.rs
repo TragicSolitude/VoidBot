@@ -3,9 +3,9 @@ use serenity::model::gateway::Ready;
 
 /// Edits or creates messages in text channels with "$VOIDBOT_DESCRIPTION" in
 /// their topics with the text in DESCRIPTION.md.
-/// 
+///
 /// # Arguments
-/// * `data_about` - The ready state data about the bot, provided in the 'ready' 
+/// * `data_about` - The ready state data about the bot, provided in the 'ready'
 /// function of the EventHandler trait
 pub fn update_bot_description(data_about: Ready) -> Result<(), Error> {
     // TODO Figure out more generic error type that impl

@@ -12,24 +12,24 @@ mod commands;
 mod managed_channel;
 mod description;
 
+use std::env;
+use std::collections::HashMap;
+use std::sync::Arc;
+use std::sync::Mutex;
+use std::thread;
+use std::time::Duration;
+use std::time::SystemTime;
+use std::collections::BinaryHeap;
+use std::fs::File;
+use std::io::prelude::*;
 use serenity::client::Client;
 use serenity::prelude::*;
 use serenity::framework::standard::StandardFramework;
 use serenity::model::id::GuildId;
 use serenity::model::id::UserId;
 use serenity::model::id::ChannelId;
-use std::env;
-use std::collections::HashMap;
-use std::sync::Arc;
-use std::sync::Mutex;
 use handler::Handler;
-use std::thread;
-use std::time::Duration;
-use std::time::SystemTime;
-use std::collections::BinaryHeap;
 use models::reminder::Reminder;
-use std::fs::File;
-use std::io::prelude::*;
 
 lazy_static! {
     /// Keeps a map of users' current server for easy lookup in the `!playing`

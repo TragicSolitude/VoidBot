@@ -7,10 +7,16 @@ Has the following commands:
 - `!playing [name]` Creates a temporary voice channel with the name `[name]` and
 moves you into it. This channel is deleted when it has no users in it.
 - `!remindme [time] [reminder]` Sends `[reminder]` in the channel the command
-was run in mentioning the person who sent the command after `[time]` seconds
-from the bot receiving the message. The reminder queue gets flushed to a file
-every 10 seconds so in the event the bot restarts there is a possible 10 second
-window of reminders that were forgotten but it's unlikely.
+was run in mentioning the person who sent the command after `[time]` from the
+bot receiving the message. `[time]` can be specified as either a plain number in
+which it is interpreted as seconds or it can have some kind of suffix to specify
+the interval. For example; 32 minutes can be represented as `32m` or `32minutes`
+or `1920seconds`. This works for "seconds," "minutes," "hours," "days," and even
+"years."
+
+All stateful commands (e.g. `!playing` and `!remindme`) have relevant data
+structures periodically dumped to the filesystem so the bot should for the most
+part survive restarts gracefully.
 
 The bot also supports some additional passive functionality:
 - If you want to have this description of the bot on your server, put

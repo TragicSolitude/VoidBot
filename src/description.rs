@@ -7,11 +7,11 @@ use serenity::model::gateway::Ready;
 /// # Arguments
 /// * `data_about` - The ready state data about the bot, provided in the 'ready'
 /// function of the EventHandler trait
-pub fn update_bot_description(data_about: Ready) -> Result<(), Error> {
+pub fn update_bot_description(data_about: &Ready) -> Result<(), Error> {
     // TODO Figure out more generic error type that impl
     // convert::From<option::NoneError> so that we can clean up some of this
     // indentation
-    for guild in data_about.guilds {
+    for guild in &data_about.guilds {
         for (_, guild_channel) in guild.id().channels()?.iter() {
             if let Some(topic) = &guild_channel.topic {
                 if topic.contains("$VOIDBOT_DESCRIPTION") {

@@ -1,16 +1,16 @@
+use std::time::Duration;
 use serenity::prelude::*;
 use serenity::framework::standard::Command;
 use serenity::framework::standard::Args;
 use serenity::framework::standard::CommandError as Error;
 use serenity::model::channel::Message;
 use crate::models::reminder::Reminder;
-use std::time::Duration;
-use crate::REMINDERS;
+use crate::reminder_manager::ReminderManager;
 
 pub struct RemindMe;
 
 impl Command for RemindMe {
-    fn execute(&self, _: &mut Context, msg: &Message, _: Args) -> Result<(), Error> {
+    fn execute(&self, ctx: &mut Context, msg: &Message, _: Args) -> Result<(), Error> {
         let channel = msg.channel_id;
         let author = msg.author.id;
         let mut it = msg.content.split(" ").skip(1);
@@ -23,8 +23,10 @@ impl Command for RemindMe {
                     Duration::from_secs(dur)
                 }
             };
-            REMINDERS.lock()?.push(
-                Reminder::new(author.0, channel.0, content, duration));
+            let mut data = ctx.data.lock();
+            let reminder_manager = data.get_mut::<ReminderManager>().unwrap();
+            reminder_manager.set_reminder(
+                Reminder::new(author.0, channel.0, content, duration))?;
         }
 
         Ok(())

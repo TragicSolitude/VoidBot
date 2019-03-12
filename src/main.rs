@@ -1,6 +1,7 @@
 extern crate serenity;
 extern crate toml;
 extern crate bincode;
+extern crate regex;
 #[macro_use]
 extern crate serde;
 
@@ -37,7 +38,8 @@ fn main() {
         .cmd("ping", commands::ping::Ping)
         .cmd("playing", commands::playing::Playing)
         .cmd("version", commands::version::Version)
-        .cmd("remindme", commands::remindme::RemindMe));
+        .cmd("remindme", commands::remindme::RemindMe)
+        .cmd("eval", commands::eval::Eval));
 
     // start listening for events by starting a single shard
     if let Err(why) = client.start() {

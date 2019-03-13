@@ -11,6 +11,7 @@ toml = "0.4"
 bincode = "1.1"
 humantime = "1.2"
 regex = "1.0"
+meval = "0.2"
 
 [dependencies.serde]
 version = "1.0"

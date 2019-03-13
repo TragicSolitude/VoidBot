@@ -9,8 +9,8 @@ use regex::Captures;
 pub struct Eval;
 
 impl Eval {
-    fn exec(&self, _: &str) -> Result<f32, Error> {
-        Ok(0f32)
+    fn exec(&self, exp: &str) -> Result<f64, Error> {
+        Ok(meval::eval_str(exp).unwrap())
     }
 }
 

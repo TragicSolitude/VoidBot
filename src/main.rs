@@ -1,7 +1,6 @@
 extern crate serenity;
 extern crate toml;
 extern crate bincode;
-extern crate regex;
 extern crate meval;
 #[macro_use]
 extern crate serde;

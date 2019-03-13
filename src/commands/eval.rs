@@ -10,7 +10,7 @@ pub struct Eval;
 
 impl Eval {
     fn exec(&self, exp: &str) -> Result<f64, Error> {
-        Ok(meval::eval_str(exp).unwrap())
+        meval::eval_str(exp).map_err(|e| Error(e.to_string()))
     }
 }
 
@@ -23,7 +23,10 @@ impl Command for Eval {
             .collect::<Vec<&str>>()
             .join(" ");
         let ret = re.replace_all(&content, |caps: &Captures| {
-            format!("{}", self.exec(&caps[1]).unwrap())
+            match self.exec(&caps[1]) {
+                Ok(res) => format!("{}", res),
+                Err(e) => format!("{:?}", e)
+            }
         });
 
         msg.reply(&*ret)?;

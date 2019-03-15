@@ -2,6 +2,7 @@ extern crate serenity;
 extern crate toml;
 extern crate bincode;
 extern crate meval;
+extern crate rand;
 #[macro_use]
 extern crate serde;
 
@@ -39,7 +40,8 @@ fn main() {
         .cmd("playing", commands::playing::Playing)
         .cmd("version", commands::version::Version)
         .cmd("remindme", commands::remindme::RemindMe)
-        .cmd("eval", commands::eval::Eval));
+        .cmd("eval", commands::eval::Eval)
+        .cmd("roll", commands::roll::Roll));
 
     // start listening for events by starting a single shard
     if let Err(why) = client.start() {

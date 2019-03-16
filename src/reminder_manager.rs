@@ -60,10 +60,22 @@ impl ReminderManager {
                 loop {
                     thread::sleep(Duration::from_secs(1));
                     if let Ok(mut lock) = reminders.lock() {
-                        while lock.len() > 0 && lock.peek().unwrap().expiration < SystemTime::now() {
-                            let reminder = lock.pop().unwrap();
-                            let _ = ChannelId::from(reminder.channel).say(
-                                format!("{}: {}", UserId::from(reminder.author).mention(), reminder.message));
+                        loop {
+                            let item = lock.peek();
+                            match item {
+                                None => break,
+                                Some(reminder) => {
+                                    if reminder.expiration > SystemTime::now() {
+                                        break;
+                                    }
+
+                                    let author = UserId::from(reminder.author);
+                                    let channel = ChannelId::from(reminder.channel);
+                                    let _ = channel.say(
+                                        format!("{}: {}", author.mention(), reminder.message));
+                                    let _ = lock.pop();
+                                }
+                            }
                         }
                     }
                 }

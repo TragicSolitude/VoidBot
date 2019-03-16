@@ -24,9 +24,10 @@ impl Command for RemindMe {
                 }
             };
             let mut data = ctx.data.lock();
-            let reminder_manager = data.get_mut::<ReminderManager>().unwrap();
-            reminder_manager.set_reminder(
-                Reminder::new(author.0, channel.0, content, duration))?;
+            if let Some(reminder_manager) = data.get_mut::<ReminderManager>() {
+                reminder_manager.set_reminder(
+                    Reminder::new(author.0, channel.0, content, duration))?;
+            }
         }
 
         Ok(())

@@ -74,15 +74,22 @@ impl ChannelManager {
         Ok(new_channel.id)
     }
 
-    pub fn user_active_guild(&self, user: &UserId) -> Option<GuildId> {
+    pub fn user_current_channel(&self, user: &UserId) -> Option<(GuildId, ChannelId)> {
         let voice_state = self.voice_states.get(user)?;
-        if let Some(channel_id) = voice_state.channel_id {
-            if let Ok(channel) = channel_id.to_channel() {
-                return Some(channel.guild()?.read().guild_id);
-            }
+        let channel_id = voice_state.channel_id?;
+        if let Ok(channel) = channel_id.to_channel() {
+            return Some((channel.guild()?.read().guild_id, channel_id));
         }
 
         None
+    }
+
+    pub fn get_all_users_in_channel<'a>(&'a self, channel_id: &'a ChannelId) -> Vec<&'a UserId> {
+        self.voice_states
+            .iter()
+            .filter(|item| item.1.channel_id == Some(*channel_id))
+            .map(|item| item.0)
+            .collect()
     }
 
     pub fn refresh_voice_states(&mut self, new_states: HashMap<UserId, VoiceState>) {

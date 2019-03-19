@@ -5,9 +5,9 @@ use serenity::framework::standard::CommandError as Error;
 use serenity::model::channel::Message;
 use crate::channel_manager::ChannelManager;
 
-pub struct Playing;
+pub struct AllPlaying;
 
-impl Command for Playing {
+impl Command for AllPlaying {
     fn execute(&self, ctx: &mut Context, msg: &Message, _: Args) -> Result<(), Error> {
         let mut data = ctx.data.lock();
         if let Some(channel_manager) = data.get_mut::<ChannelManager>() {
@@ -18,9 +18,12 @@ impl Command for Playing {
                 .collect::<Vec<&str>>()
                 .join(" ");
             let user_location = channel_manager.user_current_channel(&msg.author.id);
-            if let Some((guild_id, _)) = user_location {
-                let channel_id = channel_manager.new_managed_channel(&guild_id, &name)?;
-                let _ = guild_id.move_member(msg.author.id, channel_id);
+            if let Some((guild_id, current_channel_id)) = user_location {
+                let new_channel_id = channel_manager.new_managed_channel(&guild_id, &name)?;
+                let users_to_move = channel_manager.get_all_users_in_channel(&current_channel_id);
+                for user_id in users_to_move {
+                    let _ = guild_id.move_member(user_id, new_channel_id);
+                }
                 return Ok(());
             }
         }

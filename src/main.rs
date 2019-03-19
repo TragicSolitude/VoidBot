@@ -38,6 +38,7 @@ fn main() {
         .configure(|c| c.prefix("!"))
         .cmd("ping", commands::ping::Ping)
         .cmd("playing", commands::playing::Playing)
+        .cmd("allplaying", commands::allplaying::AllPlaying)
         .cmd("version", commands::version::Version)
         .cmd("remindme", commands::remindme::RemindMe)
         .cmd("eval", commands::eval::Eval)

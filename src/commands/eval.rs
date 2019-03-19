@@ -13,13 +13,9 @@ impl Eval {
 }
 
 impl Command for Eval {
-    fn execute(&self, _: &mut Context, msg: &Message, _: Args) -> Result<(), Error> {
-        let content = msg.content
-            .split(" ")
-            .skip(1)
-            .collect::<Vec<&str>>()
-            .join(" ");
-        let ret = match self.exec(&content) {
+    fn execute(&self, _: &mut Context, msg: &Message, args: Args) -> Result<(), Error> {
+        let content = args.rest();
+        let ret = match self.exec(content) {
             Ok(res) => format!("{}", res),
             Err(e) => format!("{:?}", e)
         };

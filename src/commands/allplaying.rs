@@ -8,15 +8,11 @@ use crate::channel_manager::ChannelManager;
 pub struct AllPlaying;
 
 impl Command for AllPlaying {
-    fn execute(&self, ctx: &mut Context, msg: &Message, _: Args) -> Result<(), Error> {
+    fn execute(&self, ctx: &mut Context, msg: &Message, args: Args) -> Result<(), Error> {
         let mut data = ctx.data.lock();
         if let Some(channel_manager) = data.get_mut::<ChannelManager>() {
             // Gets everything after the command
-            let name: String = msg.content
-                .split(" ")
-                .skip(1)
-                .collect::<Vec<&str>>()
-                .join(" ");
+            let name = args.rest();
             let user_location = channel_manager.user_current_channel(&msg.author.id);
             if let Some((guild_id, current_channel_id)) = user_location {
                 let new_channel_id = channel_manager.new_managed_channel(&guild_id, &name)?;

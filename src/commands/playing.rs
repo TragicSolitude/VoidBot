@@ -14,7 +14,7 @@ impl Command for Playing {
             let name = args.rest();
             let user_location = channel_manager.user_current_channel(&msg.author.id);
             if let Some((guild_id, _)) = user_location {
-                let channel_id = channel_manager.new_managed_channel(&guild_id, &name)?;
+                let channel_id = channel_manager.new_managed_channel(&guild_id, name)?;
                 let _ = guild_id.move_member(msg.author.id, channel_id);
                 return Ok(());
             }

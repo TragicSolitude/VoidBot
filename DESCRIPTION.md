@@ -19,6 +19,11 @@ or `1920seconds`. This works for "seconds," "minutes," "hours," "days," and even
 result For example: `!eval 1 + 1` will be responded to with `@User: 2`.
 - `!roll [n]` "Roll the dice." Returns `[n]` random numbers between 1 and 6
 inclusive.
+- `!teams [n]` Creates `[n]` temporary channels that represent each of the `[n]`
+teams. All members currently in your voice channel are then randomly and evenly
+placed into the team channels. You cannot create more teams than there are
+members to be moved into said teams; there has to be at least one member per
+team.
 
 All stateful commands (e.g. `!playing` and `!remindme`) have relevant data
 structures periodically dumped to the filesystem so the bot should for the most

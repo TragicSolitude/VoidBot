@@ -5,3 +5,4 @@ pub mod version;
 pub mod remindme;
 pub mod eval;
 pub mod roll;
+pub mod teams;

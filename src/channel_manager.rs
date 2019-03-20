@@ -84,11 +84,11 @@ impl ChannelManager {
         None
     }
 
-    pub fn get_all_users_in_channel<'a>(&'a self, channel_id: &'a ChannelId) -> Vec<&'a UserId> {
+    pub fn get_all_users_in_channel(&self, channel_id: &ChannelId) -> Vec<UserId> {
         self.voice_states
             .iter()
             .filter(|item| item.1.channel_id == Some(*channel_id))
-            .map(|item| item.0)
+            .map(|item| item.0.clone())
             .collect()
     }
 

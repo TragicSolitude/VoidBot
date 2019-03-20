@@ -42,7 +42,8 @@ fn main() {
         .cmd("version", commands::version::Version)
         .cmd("remindme", commands::remindme::RemindMe)
         .cmd("eval", commands::eval::Eval)
-        .cmd("roll", commands::roll::Roll));
+        .cmd("roll", commands::roll::Roll)
+        .cmd("teams", commands::teams::Teams));
 
     // start listening for events by starting a single shard
     if let Err(why) = client.start() {

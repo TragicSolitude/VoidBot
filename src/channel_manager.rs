@@ -70,6 +70,7 @@ impl ChannelManager {
             Ok(mut lock) => lock.push(ManagedChannel::from(new_channel.id)),
             Err(_) => return Err(Error::Other(""))
         }
+        println!("Creating new managed channel");
 
         Ok(new_channel.id)
     }
@@ -98,6 +99,7 @@ impl ChannelManager {
     }
 
     pub fn voice_state_update(&mut self, new_state: VoiceState) {
+        println!("New voice state for {:?}: {:?}", new_state.user_id, new_state.channel_id);
         self.voice_states.insert(new_state.user_id, new_state);
         self.prune_channels();
     }
@@ -111,6 +113,8 @@ impl ChannelManager {
                         return true;
                     }
                 }
+
+                println!("Deleting channel {:?}", channel.channel_id().name());
 
                 false
             });
